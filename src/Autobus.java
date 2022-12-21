@@ -8,8 +8,8 @@ import java.util.ArrayList;
  * gérer une liste de Passager ainsi que l'avancement de son
  * trajet.
  */
-class Autobus implements Transport, Vehicule {
-
+public class Autobus  extends Vehicule implements Transport {
+    
   private int numeroArret;
   private final Jauge debout;
   private final Jauge assis;
@@ -30,9 +30,9 @@ class Autobus implements Transport, Vehicule {
     numeroArret = 0;
     passagersAssis = new ArrayList<Passager>(nbPlaceAssise);
     passagersDebout = new ArrayList<Passager>(nbPlaceDebout);
-    
-  }
 
+  }
+  
   /**
    * Cherche dans un tableau de passagers non trié
    * un emplacement vide.
@@ -40,12 +40,17 @@ class Autobus implements Transport, Vehicule {
    * @param tabP le tableau a parcourir
    * @return l'index de l'emplacement vide, sinon -1
    */
+
   private int chercherEmplacementVide(Passager[] tabP){
     for(int k=0; k<tabP.length; k++){
       if (tabP[k] == null)
         return k;
     }
     return -1;
+  }
+
+  int numeroArret(){
+    return this.numeroArret;
   }
 
   /**
@@ -67,6 +72,7 @@ class Autobus implements Transport, Vehicule {
    *
    * @return l'index de l'emplacement vide, sinon -1
    */
+
   /*
   private int chercherEmplacementVideDebout(){
     return chercherEmplacementVide(passagersDebout);
@@ -83,6 +89,7 @@ class Autobus implements Transport, Vehicule {
   private int chercherPassager(ArrayList<Passager> tabP, Passager p){
     return tabP.indexOf(p);
   }
+
 
   /**
    * Cherche un passager spécifique dans les places assises.
@@ -112,8 +119,8 @@ class Autobus implements Transport, Vehicule {
    */
   private void nouvelArretPassager(ArrayList<Passager> tabP){
     ArrayList<Passager> tabCopy = (ArrayList<Passager>) tabP.clone();
-    for (Passager p : tabCopy){
-      p.nouvelArret(this, numeroArret);     
+    for (Passager p : tabCopy){    
+        p.nouvelArret(this, numeroArret);
     }
   }
   
@@ -132,7 +139,7 @@ class Autobus implements Transport, Vehicule {
    *
    * @return vrai s'il en reste
    */
-  public boolean aPlaceAssise(){
+  boolean aPlaceAssise(){
     return assis.estVert();
   }
 
@@ -141,7 +148,7 @@ class Autobus implements Transport, Vehicule {
    *
    * @return vrai s'il en reste
    */
-  public boolean aPlaceDebout(){
+  boolean aPlaceDebout(){
     return debout.estVert();
   }
 
@@ -150,7 +157,7 @@ class Autobus implements Transport, Vehicule {
    *
    * @param p le passager montant
    */
-  public void monteeDemanderAssis(Passager p){
+  void monteeDemanderAssis(Passager p){
     assis.incrementer();
     passagersAssis.add(p);
     p.changerEnAssis();
@@ -161,7 +168,7 @@ class Autobus implements Transport, Vehicule {
    *
    * @param p le passager montant
    */    
-  public void monteeDemanderDebout(Passager p){
+  void monteeDemanderDebout(Passager p){
     debout.incrementer();
     passagersDebout.add(p);
     p.changerEnDebout();
@@ -172,7 +179,7 @@ class Autobus implements Transport, Vehicule {
    *
    * @param p le passager changeant
    */
-  public void arretDemanderDebout(Passager p){
+  void arretDemanderDebout(Passager p){
     assis.decrementer();
     int position = chercherPassagerAssis(p);
     passagersAssis.remove(position);
@@ -184,11 +191,12 @@ class Autobus implements Transport, Vehicule {
    *
    * @param p le passager changeant
    */
-  public void arretDemanderAssis(Passager p){
+  void arretDemanderAssis(Passager p){
     debout.decrementer();
     int position = chercherPassagerDebout(p);
     passagersDebout.remove(position);
     monteeDemanderAssis(p);
+
   }
 
   /**
@@ -204,6 +212,7 @@ class Autobus implements Transport, Vehicule {
       p.changerEnDehors();
     }
   }
+
   /**
    * Sors un passager assis.
    *
@@ -223,7 +232,7 @@ class Autobus implements Transport, Vehicule {
    *
    * @param p le passager sortant
    */
-  public void arretDemanderSortie(Passager p)
+  void arretDemanderSortie(Passager p)
     {
       if (p.estDebout())
       {

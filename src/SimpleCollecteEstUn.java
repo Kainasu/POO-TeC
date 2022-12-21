@@ -1,10 +1,12 @@
 import tec.Transport;
 import tec.Usager;
-import tec.FabriqueTec;
-import tec.Greffon;
+import tec.GreffonAutobus;
+import tec.PassagerStandard;
 import tec.TecException;
+import log.CollecteMemoire;
+import log.CollecteFichier;
 
-class SimpleCollecteAUn {
+class SimpleCollecteEstUn {
 
   /*
    * Affiche l'etat des deux instances passees en parametre.
@@ -19,13 +21,13 @@ class SimpleCollecteAUn {
   }
 
   static public void main (String[] args) throws TecException {
-    Transport serenity = FabriqueTec.faireAutobusGreffonMemoire(1,2);
-    //Transport serenity = FabriqueTec.faireAutobusGreffonFichier(1,2);
-    
-    Usager kaylee = FabriqueTec.fairePassagerStandard("Kaylee", 4);
-    Usager jayne = FabriqueTec.fairePassagerStandard("Jayne", 4);
-    Usager inara = FabriqueTec.fairePassagerStandard("Inara", 5);
-    
+    Transport serenity = new GreffonAutobus(1, 2, new CollecteMemoire());
+    //Transport serenity = new GreffonAutobus(1, 2, new CollecteFichier("log.txt"));
+
+    Usager kaylee = new PassagerStandard("Kaylee", 4);
+    Usager jayne = new PassagerStandard("Jayne", 4);
+    Usager inara = new PassagerStandard("Inara", 5);
+
     //0
     
     serenity.allerArretSuivant();
@@ -51,9 +53,10 @@ class SimpleCollecteAUn {
     System.out.println(serenity + "\n");    
     //5
 
-    ((Greffon) serenity).terminus();
+    ((GreffonAutobus) serenity).terminus();
 
     System.out.println(serenity + "\n");
+
   }
 }
 

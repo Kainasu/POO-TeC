@@ -64,35 +64,7 @@ class TestJauge {
     }
 
   }
-    
-  public static void main (String[] args){
-	
-    boolean estMisAssertion = false;
-    assert estMisAssertion = true;
-	
-    if (!estMisAssertion) {
-      System.out.println("Execution impossible sans l'option -ea");
-      return;
-    }
 
-    int nbTest = 0;
-
-    System.out.print('.'); nbTest++;
-    new TestJauge().testDansIntervalle();
-    
-    System.out.print('.'); nbTest++;
-    new TestJauge().testSuperieurIntervalle();
-
-    System.out.print('.'); nbTest++;
-    new TestJauge().testNegatifIntervalle();
-
-    System.out.print('.'); nbTest++;
-    new TestJauge().testDepasserIntervalleDroite();
-
-    System.out.print('.'); nbTest++;
-    new TestJauge().testDepasserIntervalleGauche();
-
-
-    System.out.println("(" + nbTest + "):OK: " + "tec.TestJauge");
-  }
 }
+
+ 

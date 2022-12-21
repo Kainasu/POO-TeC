@@ -1,48 +1,6 @@
 package tec;
 
 class TestAutobus {
-  
-  public static void main (String[] args) {
-    boolean estMisAssertion = false;
-    assert estMisAssertion = true;
-
-    if (!estMisAssertion) {
-      System.out.println("Execution impossible sans l'option -ea");
-      return;
-    }
-
-    int nbTest = 0;
-
-    //************ Verifier l'instanciation *************
-    System.out.print('.'); nbTest++;
-    new TestAutobus().testInstanciation();
-
-    //********* Verifier la gestion des places **********
-    System.out.print('.'); nbTest++;
-    new TestAutobus().testGestionDemander();
-
-    System.out.print('.'); nbTest++;
-    new TestAutobus().testGestionChanger();
-
-    System.out.print('.'); nbTest++;
-    new TestAutobus().testGestionSortie();
-
-    //******** Verifier les interactions  *************
-    System.out.print('.'); nbTest++;
-    new TestAutobus().testInteractionDemander();
-
-    System.out.print('.'); nbTest++;
-    new TestAutobus().testInteractionChanger();
-
-    System.out.print('.'); nbTest++;
-    new TestAutobus().testInteractionSortie();
-
-    //********* Gestion des passagers ***************
-    System.out.print('.'); nbTest++;
-    new TestAutobus().testArretSuivant();
-
-    System.out.println("(" + nbTest + "):OK: " + "tec.TestAutobus"); 
-  }
 
   //********************************************************
   

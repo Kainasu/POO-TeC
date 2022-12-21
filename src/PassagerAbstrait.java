@@ -1,24 +1,26 @@
 package tec;
 /**
- * Implémentation d'un Passager Standard.
+ * PassagerAbstrait.
  *
  * Le comportement de ce passager est qu'il monte dans un
  * véhicule et ne change pas de position.
  */
-abstract class PassagerAbstrait implements Passager, Usager{
+abstract class PassagerAbstrait extends Passager implements Usager {
   private String nom ;
   private int destination ;
   private Position maPosition ;
-  protected ComportementArret arret;
-  
+  private ComportementArret arret;
+
   /** 
    * Constructeur
    *
    * @param nom le nom du passager
    * @param destination le numéro d'arrêt où il descend
    */
-  protected PassagerAbstrait(String nom , int destination, ComportementArret a){
-    maPosition = Position.creerPositionInitiale();
+  public PassagerAbstrait(String nom , int destination, ComportementArret a){
+    if (destination < 0)
+      throw new IllegalArgumentException("destination invalide");
+    this.maPosition = Position.creerPositionInitiale();
     this.nom = nom ;
     this.destination = destination ;
     this.arret = a;
@@ -29,22 +31,24 @@ abstract class PassagerAbstrait implements Passager, Usager{
    *
    * @return son nom
    */
-  public String nom(){
+  String nom(){
     return this.nom;
   }
 
-  protected abstract void choixPlaceMontee(Vehicule v);
-
-  final public int destination()
-  {
+  /**
+   * Accesseur de la destination du passager.
+   *
+   * @return sa destination
+   */
+  final protected int destination() {
     return this.destination;
   }
-
+  
   /**
    * Mutateur de la position.
    * Prend une position assise.
    */
-  public void changerEnAssis(){
+  void changerEnAssis(){
     this.maPosition = this.maPosition.assis();
   }
 
@@ -52,7 +56,7 @@ abstract class PassagerAbstrait implements Passager, Usager{
    * Mutateur de la position.
    * Prend une position debout.
    */
-  public void changerEnDebout(){
+  void changerEnDebout(){
     this.maPosition = this.maPosition.debout();
   }
 
@@ -60,7 +64,7 @@ abstract class PassagerAbstrait implements Passager, Usager{
    * Mutateur de la position.
    * Prend une position dehors.
    */
-  public void changerEnDehors(){
+  void changerEnDehors(){
     this.maPosition = this.maPosition.dehors();
   }
 
@@ -69,7 +73,7 @@ abstract class PassagerAbstrait implements Passager, Usager{
    *
    * @return vrai si elle l'est
    */
-  public boolean estAssis(){
+  boolean estAssis(){
     return this.maPosition.estAssis();
   }
 
@@ -78,7 +82,7 @@ abstract class PassagerAbstrait implements Passager, Usager{
    *
    * @return vrai si elle l'est
    */
-  public boolean estDebout(){
+  boolean estDebout(){
     return this.maPosition.estDebout();
   }
 
@@ -87,7 +91,7 @@ abstract class PassagerAbstrait implements Passager, Usager{
    *
    * @return vrai si elle l'est
    */
-  public boolean estDehors(){
+  boolean estDehors(){
     return this.maPosition.estDehors();
   }
 
@@ -97,16 +101,19 @@ abstract class PassagerAbstrait implements Passager, Usager{
    *
    * @param v le véhicule dans lequel le passager monte
    */
-
+  
   public final void monterDans(Transport t) throws TecException {
-
+    
     Vehicule v = (Vehicule) t;
     if (!(v instanceof Vehicule))
       throw new TecException("Conversion de type échouée");
     
-    if (!this.estDehors())
-      throw new IllegalStateException("Passager deja dans bus");
-    
+    try {
+      if (!this.estDehors())
+	throw new IllegalStateException("Passager deja dans bus");
+    } catch (IllegalStateException e) {
+      throw new TecException(e);
+    }
     choixPlaceMontee(v);
   }
 
@@ -116,16 +123,18 @@ abstract class PassagerAbstrait implements Passager, Usager{
    * @param v le véhicule dans lequel le passager est monté
    * @param numeroArret le nouvel arrêt
    */
-  final public void nouvelArret(Vehicule v, int numeroArret){
-    if(this.destination() == numeroArret)
-    {
+  final void nouvelArret(Vehicule v, int numeroArret) {
+    if (numeroArret == this.destination) {
       v.arretDemanderSortie(this);
     } else {
       choixPlaceArret(v, numeroArret);
     }
   }
 
-  protected void choixPlaceArret(Vehicule v, int numeroArret) {
+  abstract protected void choixPlaceMontee(Vehicule v);
+
+  protected void choixPlaceArret(Vehicule v, int numeroArret)
+  {
     arret.choixPlaceArret(v, numeroArret, this);
   }
   

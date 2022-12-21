@@ -34,6 +34,9 @@ class Jauge {
    * @param depart   position de départ de la Jauge.
    */
   public Jauge(int max, int depart) {
+    if (max<0)
+      throw new IllegalArgumentException("IllegalArgumentException: max<0");
+
     valeur = depart;
     MAX = max;
   }

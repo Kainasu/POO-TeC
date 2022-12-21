@@ -4,8 +4,7 @@
 **Equipe** : UneEquipeDuGroupe2
 **Étudiants** : ebaucher, kdieu, ndo001, alamhamdi001, qnasdami, rouriha
 
-##Interface approche
-
+## Partie abstract
 ## Architecture du projet
 
 - **src/**   : Dossier contenant les fichiers sources.
@@ -16,7 +15,7 @@
 
 Éxecuter les tests :
 ```
-$ make
+$ make alltest
 ```
 
 Éxecuter le fichier d'exemple :

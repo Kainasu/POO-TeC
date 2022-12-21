@@ -12,7 +12,7 @@ package tec;
  *
  * Il enregistre l'appel aux méthodes qui doivent modifier son etat.
  */
-class FauxPassager implements Passager, Usager {
+class FauxPassager extends Passager implements Usager {
   static final byte DEHORS = 0;
   static final byte ASSIS  = 1;
   static final byte DEBOUT = 2;
