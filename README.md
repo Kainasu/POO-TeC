@@ -4,6 +4,8 @@
 **Equipe** : UneEquipeDuGroupe2
 **Étudiants** : ebaucher, kdieu, ndo001, alamhamdi001, qnasdami, rouriha
 
+##Interface approche
+
 ## Architecture du projet
 
 - **src/**   : Dossier contenant les fichiers sources.

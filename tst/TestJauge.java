@@ -54,7 +54,16 @@ class TestJauge {
     assert ! intervalle.estRouge() : "niveau >= max alors qu'on devait avoir niveau < max";
   }
 
+  public void testCasLimite(){
+    Jauge inverse = null;
+    try{
+      inverse = new Jauge(-42,10);
+      assert false : "Exeption non levee";
+    } catch(IllegalArgumentException e){
+      System.err.println(e.getMessage());
+    }
 
+  }
     
   public static void main (String[] args){
 	

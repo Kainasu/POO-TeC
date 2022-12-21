@@ -80,5 +80,7 @@ interface Passager {
    * @param numeroArret numéro de l'arrêt courant.
    */
   public void nouvelArret(Vehicule v, int numeroArret);
+
+  int destination();
 }
 

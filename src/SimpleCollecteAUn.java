@@ -1,10 +1,10 @@
 import tec.Transport;
 import tec.Usager;
 import tec.FabriqueTec;
+import tec.Greffon;
 import tec.TecException;
 
-
-class Simple {
+class SimpleCollecteAUn {
 
   /*
    * Affiche l'etat des deux instances passees en parametre.
@@ -19,54 +19,41 @@ class Simple {
   }
 
   static public void main (String[] args) throws TecException {
-    //Transport serenity = new Autobus(1, 2);
-    Transport serenity = FabriqueTec.faireAutobus(1, 2);
+    Transport serenity = FabriqueTec.faireAutobusGreffonMemoire(1,2);
+    //Transport serenity = FabriqueTec.faireAutobusGreffonFichier(1,2);
+    
     Usager kaylee = FabriqueTec.fairePassagerStandard("Kaylee", 4);
     Usager jayne = FabriqueTec.fairePassagerStandard("Jayne", 4);
     Usager inara = FabriqueTec.fairePassagerStandard("Inara", 5);
-
-
+    
     //0
-    System.out.println(serenity);
-
+    
     serenity.allerArretSuivant();
+    System.out.println(serenity + "\n");
     //1
     kaylee.monterDans(serenity);
 
-    System.out.println(serenity);
-    System.out.println(kaylee);
-
     serenity.allerArretSuivant();
+    System.out.println(serenity + "\n");    
     //2
     jayne.monterDans(serenity);
 
-    System.out.println(serenity);
-    System.out.println(kaylee);
-    System.out.println(jayne);
-
     serenity.allerArretSuivant();
+    System.out.println(serenity + "\n");    
     //3
     inara.monterDans(serenity);
 
-    System.out.println(serenity);
-    System.out.println(kaylee);
-    System.out.println(jayne);
-    System.out.println(inara);
-
     serenity.allerArretSuivant();
+    System.out.println(serenity + "\n");    
     //4
-    System.out.println(serenity);
-    System.out.println(kaylee);
-    System.out.println(jayne);
-    System.out.println(inara);
 
     serenity.allerArretSuivant();
+    System.out.println(serenity + "\n");    
     //5
-    System.out.println(serenity);
-    System.out.println(kaylee);
-    System.out.println(jayne);
-    System.out.println(inara);
 
+    ((Greffon) serenity).terminus();
+
+    System.out.println(serenity + "\n");
   }
 }
 

@@ -1,4 +1,5 @@
 package tec;
+import java.util.ArrayList;
 
 /** 
  * Implémentation d'un autobus.
@@ -7,13 +8,13 @@ package tec;
  * gérer une liste de Passager ainsi que l'avancement de son
  * trajet.
  */
-public class Autobus implements Transport, Vehicule {
+class Autobus implements Transport, Vehicule {
 
   private int numeroArret;
   private final Jauge debout;
   private final Jauge assis;
-  private Passager[] passagersDebout;
-  private Passager[] passagersAssis;
+  private ArrayList<Passager> passagersDebout;
+  private ArrayList<Passager> passagersAssis;
   
   /** 
    * Constructeur
@@ -22,12 +23,14 @@ public class Autobus implements Transport, Vehicule {
    * @param nbPlaceDebout limite maximale de la Jauge debout
    */
   public Autobus(int  nbPlaceAssise, int nbPlaceDebout){
+    if (nbPlaceAssise < 0 || nbPlaceDebout < 0)
+      throw new IllegalArgumentException("place négatif");
     debout = new Jauge(nbPlaceDebout, 0);
     assis = new Jauge(nbPlaceAssise,0);
     numeroArret = 0;
-    passagersAssis = new Passager[nbPlaceAssise];
-    passagersDebout = new Passager[nbPlaceDebout];
-
+    passagersAssis = new ArrayList<Passager>(nbPlaceAssise);
+    passagersDebout = new ArrayList<Passager>(nbPlaceDebout);
+    
   }
 
   /**
@@ -51,9 +54,12 @@ public class Autobus implements Transport, Vehicule {
    *
    * @return l'index de l'emplacement vide, sinon -1
    */
+
+  /*
   private int chercherEmplacementVideAssis(){
     return chercherEmplacementVide(passagersAssis);
   }
+  */
 
   /**
    * Cherche un emplacement vide spécifiquement
@@ -61,9 +67,11 @@ public class Autobus implements Transport, Vehicule {
    *
    * @return l'index de l'emplacement vide, sinon -1
    */
+  /*
   private int chercherEmplacementVideDebout(){
     return chercherEmplacementVide(passagersDebout);
   }
+  */
 
   /**
    * Cherche un passager spécifique dans un tableau donné.
@@ -72,12 +80,8 @@ public class Autobus implements Transport, Vehicule {
    * @param p    le passager à chercher
    * @return l'index de l'emplacement trouvé, sinon -1
    */
-  private int chercherPassager(Passager[] tabP, Passager p){
-    for (int k=0; k<tabP.length; k++){
-      if (tabP[k] == p)
-        return k;
-    }
-    return -1;
+  private int chercherPassager(ArrayList<Passager> tabP, Passager p){
+    return tabP.indexOf(p);
   }
 
   /**
@@ -106,10 +110,10 @@ public class Autobus implements Transport, Vehicule {
    *
    * @param tabP le tableau de passager
    */
-  private void nouvelArretPassager(Passager[] tabP){
-    for (int k=0; k<tabP.length; k++){
-      if (tabP[k] != null)
-        tabP[k].nouvelArret(this, numeroArret);
+  private void nouvelArretPassager(ArrayList<Passager> tabP){
+    ArrayList<Passager> tabCopy = (ArrayList<Passager>) tabP.clone();
+    for (Passager p : tabCopy){
+      p.nouvelArret(this, numeroArret);     
     }
   }
   
@@ -148,8 +152,7 @@ public class Autobus implements Transport, Vehicule {
    */
   public void monteeDemanderAssis(Passager p){
     assis.incrementer();
-    int place = chercherEmplacementVideAssis();
-    passagersAssis[place] = p;
+    passagersAssis.add(p);
     p.changerEnAssis();
   }
         
@@ -160,8 +163,7 @@ public class Autobus implements Transport, Vehicule {
    */    
   public void monteeDemanderDebout(Passager p){
     debout.incrementer();
-    int place = chercherEmplacementVideDebout();
-    passagersDebout[place] = p;
+    passagersDebout.add(p);
     p.changerEnDebout();
   }
 
@@ -172,8 +174,9 @@ public class Autobus implements Transport, Vehicule {
    */
   public void arretDemanderDebout(Passager p){
     assis.decrementer();
-    debout.incrementer();
-    p.changerEnDebout();
+    int position = chercherPassagerAssis(p);
+    passagersAssis.remove(position);
+    monteeDemanderDebout(p);
   }
 
   /**
@@ -183,9 +186,9 @@ public class Autobus implements Transport, Vehicule {
    */
   public void arretDemanderAssis(Passager p){
     debout.decrementer();
-    assis.incrementer();
-    p.changerEnAssis();
-
+    int position = chercherPassagerDebout(p);
+    passagersDebout.remove(position);
+    monteeDemanderAssis(p);
   }
 
   /**
@@ -197,11 +200,10 @@ public class Autobus implements Transport, Vehicule {
     int position = chercherPassagerDebout(p);
     if (position != -1){
       debout.decrementer();
-      passagersDebout[position] = null;
+      passagersDebout.remove(position);
       p.changerEnDehors();
     }
   }
-
   /**
    * Sors un passager assis.
    *
@@ -211,7 +213,7 @@ public class Autobus implements Transport, Vehicule {
     int position = chercherPassagerAssis(p);
     if (position != -1){
       assis.decrementer();
-      passagersAssis[position] = null;
+      passagersAssis.remove(position);
       p.changerEnDehors();
     }
   }

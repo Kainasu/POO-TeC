@@ -64,4 +64,8 @@ class FauxPassager implements Passager, Usager {
   // Autobus n'utilise pas cette méthode.
   public void monterDans(Transport t) { 
   }
+
+  public int destination() {
+    return 0;
+  }
 }
